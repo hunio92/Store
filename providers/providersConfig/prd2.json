@@ -1,0 +1,11 @@
+{
+    "name": "Provider2",
+    "supply":
+        {
+            "tuborg":3.8,
+            "ciuc":3.3,
+            "peroni":5,
+            "azuga":2.3
+        },
+    "port": "7092"
+}

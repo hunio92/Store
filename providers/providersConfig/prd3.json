@@ -1,0 +1,11 @@
+{
+    "name": "Provider3",
+    "supply":
+        {
+            "tuborg":3.5,
+            "ciuc":3.5,
+            "peroni":5,
+            "leffe":8
+        },
+    "port": "7093"
+}

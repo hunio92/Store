@@ -1,0 +1,10 @@
+{
+    "name": "Provider1",
+    "supply":
+        {
+          "mere":3.12,
+          "prune":1.54,
+          "leffe":7.5
+        },
+    "port": "7091"
+}

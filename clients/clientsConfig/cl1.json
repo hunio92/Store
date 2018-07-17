@@ -1,0 +1,10 @@
+{
+    "name": "Client1",
+    "shoppinglist":
+        {
+          "mere":7,
+          "pere":6
+        },
+    "money": 100,
+    "port": "8071"
+}
