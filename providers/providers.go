@@ -16,34 +16,52 @@ const storeAdress = "http://localhost:8080/provider"
 
 type Provider struct {
 	Name   string             `json: name`
-	Supply map[string]float32 `json: supply`
+	Supply map[string]float64 `json: supply`
 	Port   string             `json: port`
+}
+
+type ProductInfo struct {
+	Name   string
+	Amount int
+	Price  float64
+	Port   string
 }
 
 var prdName string
 var providerInfo Provider
 
 func main() {
-	flag.StringVar(&prdName, "prd", "cl1", "Input a provider from configs")
+	flag.StringVar(&prdName, "prd", "prd1", "Input a provider from configs (default: prd1)")
 	flag.Parse()
 
 	getProductsInfo()
-
 	sendRequest(providerInfo)
 
 	fmt.Println("Port: ", providerInfo.Port)
+	http.HandleFunc("/price", handlerPrice)
 	http.HandleFunc("/orders", handlerOrders)
 	log.Fatal(http.ListenAndServe(":"+providerInfo.Port, nil))
 }
 
 func handlerOrders(w http.ResponseWriter, r *http.Request) {
-	var product string
+	var order ProductInfo
+	decodeJSON(r, &order)
+
+	jData, err := json.Marshal(ProductInfo{Amount: order.Amount, Name: order.Name})
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jData)
+}
+
+func handlerPrice(w http.ResponseWriter, r *http.Request) {
+	var product ProductInfo
 	decodeJSON(r, &product)
 
 	getProductsInfo()
 
-	fmt.Println("product, price: ", product, providerInfo.Supply[product])
-	jData, err := json.Marshal(providerInfo.Supply[product])
+	jData, err := json.Marshal(ProductInfo{Price: providerInfo.Supply[product.Name]})
 	if err != nil {
 		panic(err)
 	}
